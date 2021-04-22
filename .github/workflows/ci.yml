@@ -1,0 +1,33 @@
+name: CI
+on:
+  - push
+  - pull_request
+
+env: 
+  GOFLAGS: -mod=vendor
+  GOOS: windows
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install go
+        uses: actions/setup-go@v2
+
+      - name: Build plugins
+        run: make all
+
+  test:
+    runs-on: windows-2019
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install go
+        uses: actions/setup-go@v2
+
+      - name: Test
+        run: make test
